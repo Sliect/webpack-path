@@ -2,8 +2,6 @@ const path = require('path');
 
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const WebpackClearConsole = require('webpack-clear-console').WebpackClearConsole;
-const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 const {
   VueLoaderPlugin
 } = require('vue-loader'); //webpack4.6开始需要引入此插件，主要由于这里使用的是vue-loader版本大于15，低于15的不需要，切记切记，不然就会鸡鸡掉
@@ -23,8 +21,12 @@ module.exports = {
   module: {
     rules: [{
       test: /\.(css|postcss)$/,
-      use: [
-        MiniCssExtractPlugin.loader,
+      use: [{
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            publicPath: '../'
+          }
+        },
         "css-loader",
         {
           loader: 'postcss-loader',
@@ -62,7 +64,7 @@ module.exports = {
       // use: {
       //   loader: "url-loader",
       //   options: {
-      //     limit: 20000,
+      //     limit: 200,
       //     name: 'fonts/[name].[hash:8].[ext]'
       //   }
       // }
@@ -70,7 +72,10 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: "[name].[ext]",
-          outputPath: 'fonts/'
+          // 真实的输出路径 dist/pages/fonts
+          // 去寻找的输出路径 dist/pages/css/fonts
+          // 相当于相对于输出路径 dist/pages/ + css/ + fonst/
+          outputPath: 'fonts/',
         }
       }
     }]
@@ -91,10 +96,8 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: "css/[name].[hash].css",
-      // chunkFilename: "[id].css"
+      // chunkFilename: "[id].css",
     }),
-    //new WebpackClearConsole(),
-    //new UnminifiedWebpackPlugin(),
     new HTMLWebpackPlugin({
       title: 'demo',
       filename: 'index.html',

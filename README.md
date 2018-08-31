@@ -12,3 +12,14 @@
   烦恼了一下午, 只想出了copy 这个歪门方法, 实在是好奇到底哪里有区别
   如能帮助, 万分感谢！！
 ```
+
+### 解决办法
+```
+  MiniCssExtractPlugin.loader 改成如下即可
+  {
+    loader: MiniCssExtractPlugin.loader,
+    options: {
+      publicPath: '../'
+    }
+  },
+```

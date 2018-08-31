@@ -1,5 +1,6 @@
 <template>
   <div>
+    <img src="../assets/logo.png" alt="">
     <el-select v-model="value"
       placeholder="请选择">
       <el-option v-for="item in options"
